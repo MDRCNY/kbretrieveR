@@ -1,0 +1,31 @@
+Package: kbretrieveR
+Title: AWS Bedrock Knowledge Base Retrieval for R
+Version: 0.0.0.9000
+Authors@R: 
+    person("Lazarus", "Alvarez",
+           email = "lazarusalvarez3@gmail.com",
+           role = c("aut", "cre"))
+Description: Thin interface to AWS Bedrock Knowledge Bases from R.
+    Provides retrieval-only calls and tidy results (tibbles) for RAG-style
+    workflows. Works across AWS regions and supports endpoint overrides.
+License: MIT + file LICENSE
+URL: https://github.com/lazasaurus-ai/kbretrieveR
+BugReports: https://github.com/lazasaurus-ai/kbretrieveR/issues
+Depends:
+    R (>= 4.1)
+Imports:
+    httr,
+    jsonlite,
+    aws.signature,
+    digest,
+    tibble,
+    dplyr,
+    rlang
+Suggests:
+    testthat (>= 3.0.0),
+    ellmer,
+    covr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE, r6 = TRUE)
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
