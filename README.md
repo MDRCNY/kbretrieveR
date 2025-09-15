@@ -1,28 +1,28 @@
-# kbretrieveR <a href="https://lazasaurus-ai.github.io/contextR"><img src="img/kbretreiveR-hex.png" align="right" height="138" alt="kbretreiveR hex logo" /></a>
+# kbretrieveR <a href="https://lazasaurus-ai.github.io/contextR"><img src="img/kbretrieveR-hex.png" align="right" height="138" alt="kbretrieveR hex logo" /></a>
 
 
 Thin interface for AWS Bedrock Knowledge Bases from R.
 
-**kbretreiveR** retrieves relevant chunks from an AWS Bedrock Knowledge Base, then merges them into the prompt passed to your preferred chat client (e.g. ellmer::chat_aws_bedrock).
+**kbretrieveR** retrieves relevant chunks from an AWS Bedrock Knowledge Base, then merges them into the prompt passed to your preferred chat client (e.g. ellmer::chat_aws_bedrock).
 
 ## Installation
 
 ```r
 # from devtools / remotes
-remotes::install_github("lazasaurus-ai/kbretrieveR")
+remotes::install_github("MDRCNY/kbretrieveR")
 ```
 
 ## Background Info
 
-`kbretreiveR` is an R package that lets you work directly with AWS Knowledge Bases. If your project has a Knowledge Base with project details or coding best practices, you can connect it to `ellmer` and feed that context into your R session. From there, you can generate parameterized Markdown or Quarto documents that automatically incorporate the KB as context.
+`kbretrieveR` is an R package that lets you work directly with AWS Knowledge Bases. If your project has a Knowledge Base with project details or coding best practices, you can connect it to `ellmer` and feed that context into your R session. From there, you can generate parameterized Markdown or Quarto documents that automatically incorporate the KB as context.
 
-The package is more than just a chat client—it’s a building block. Its real value comes when you use it in parameterized reports or AI agents. Instead of hard-coding prompts or constantly updating them as information changes, `kbretreiveR` lets your AI workflows dynamically retrieve the latest knowledge base context, ensuring your R agents can generate outputs grounded in up-to-date, project-specific information.
+The package is more than just a chat client—it’s a building block. Its real value comes when you use it in parameterized reports or AI agents. Instead of hard-coding prompts or constantly updating them as information changes, `kbretrieveR` lets your AI workflows dynamically retrieve the latest knowledge base context, ensuring your R agents can generate outputs grounded in up-to-date, project-specific information.
 
 
 
 ## Quick Start
 ```r
-library(kbretreiveR)
+library(kbretrieveR)
 
 # Create a client (replace with your KB ID & region)
 client <- KBClient$new(
