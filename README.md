@@ -92,7 +92,19 @@ client <- KBClient$new(
 )
 ```
 
-💬 Chat Options
+### 💬 Chat Configuration Options
+
+| Method                                       | Description                                                                                      |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `$retrieve(question, number_of_results = 5)` | Retrieve context snippets from the Knowledge Base. Returns a tibble with text, URIs, and scores. |
+| `$chat(question, ...)`                       | Retrieve KB context, build a prompt, and query the chat client. Returns the assistant reply.     |
+| `$inspect(question)`                         | Pretty-print the retrieved snippets and their metadata for inspection.                           |
+| `$set_chat_client(client)`                   | Replace the chat client (e.g., swap between Bedrock models).                                     |
+| `$format_citation(row)`                      | Format a single KB row into a markdown citation link.                                            |
+| `$as_list()`                                 | Return all internal defaults and configuration values.                                           |
+
+
+Example in R Code:
 
 ```{r}
 client$chat(
@@ -108,16 +120,19 @@ client$chat(
   stream = FALSE,         # ⚡ optional streaming mode (default = FALSE)
   stream_fn = NULL        # optional custom streaming wrapper
 )
-
+```
 
 ### ⚡ Streaming Support
 
 Starting in v0.2.x, `KBClient$chat()` can stream output from Bedrock models when the underlying chat client supports it (e.g., `ellmer::chat_aws_bedrock()`).
 
 # non-streaming (default)
-resp <- client$chat("Summarize our recent projects")
+```
+resp <- client$chat("Summarize our recent projects")`
+```
 
 # streaming (opt-in)
+```
 resp_stream <- client$chat("Summarize our recent projects", stream = TRUE)
 ```
 
