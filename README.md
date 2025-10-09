@@ -1,5 +1,4 @@
-# kbretrieveR <a href="https://lazasaurus-ai.github.io/contextR"><img src="img/kbretrieveR-hex.png" align="right" height="138" alt="kbretrieveR hex logo" /></a>
-
+# kbretrieveR <a href="https://lazasaurus-ai.github.io/contextR"><img src="img/kbretrieveR-hex.png" alt="kbretrieveR hex logo" align="right" height="138"/></a>
 
 Thin interface for AWS Bedrock Knowledge Bases from R.
 
@@ -7,7 +6,7 @@ Thin interface for AWS Bedrock Knowledge Bases from R.
 
 ## Installation
 
-```r
+``` r
 # from devtools / remotes
 remotes::install_github("MDRCNY/kbretrieveR")
 ```
@@ -18,10 +17,9 @@ remotes::install_github("MDRCNY/kbretrieveR")
 
 The package is more than just a chat client—it’s a building block. Its real value comes when you use it in parameterized reports or AI agents. Instead of hard-coding prompts or constantly updating them as information changes, `kbretrieveR` lets your AI workflows dynamically retrieve the latest knowledge base context, ensuring your R agents can generate outputs grounded in up-to-date, project-specific information.
 
-
-
 ## Quick Start
-```r
+
+``` r
 library(kbretrieveR)
 
 # Create a client (replace with your KB ID & region)
@@ -45,9 +43,10 @@ client$chat("Summarize in 3 bullet points", number_of_results=3, append_sources 
 ```
 
 ### Configuration
+
 You can store defaults in your `.Renviron` for convenience similar to `ellmer`:
 
-```r
+``` r
 AWS_ACCESS_KEY_ID = "  "
 AWS_SECRET_ACCESS_KEY = "  "
 AWS_SESSION_TOKEN = "  "
@@ -57,7 +56,8 @@ AWS_KB_ID="1234ABCE"
 ```
 
 ⚙️ How It Works
-```mermaid
+
+``` mermaid
 flowchart TD
   A[User Question] -->|ask| K[kbretrieveR orchestrator]
 
@@ -70,3 +70,74 @@ flowchart TD
     K
   end
 ```
+
+## 🔧 KBClient Configuration & Streaming
+
+`KBClient()` is the core interface in `kbretrieveR` for interacting with an AWS Bedrock Knowledge Base and optionally calling a chat model (e.g. via `ellmer`). It stores convenient defaults (KB ID, region, chat client, and prompt limits) and can optionally stream responses when supported by the underlying model client.
+
+🧱 Constructor
+
+``` r
+client <- KBClient$new(
+  kb_id = Sys.getenv("AWS_KB_ID"),                 # Knowledge Base ID
+  region = Sys.getenv("AWS_REGION", "us-east-1"),  # AWS region
+  chat_client = ellmer::chat_aws_bedrock(
+    model = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+  ),
+  default_number_of_results = 5,   # Default KB retrieve size
+  default_max_snippets = 5,        # Default number of context snippets injected into the prompt
+  default_snippet_chars = 1500,    # Max characters per snippet
+  include_metadata = TRUE,         # Include metadata (source URIs, chunk IDs) in the prompt
+  verbose = TRUE                   # Print progress messages
+)
+```
+
+💬 Chat Options
+
+```{r}
+client$chat(
+  question,               # user input text
+  kb_id = NULL,           # override KB ID
+  chat_client = NULL,     # override chat client
+  number_of_results = 5,  # KB context size
+  max_snippets = 5,       # number of snippets to inject
+  snippet_chars = 1500,   # characters per snippet
+  append_sources = FALSE, # append "Sources" list to reply
+  return_raw = FALSE,     # return full response + prompt + parsed KB
+  verbose = TRUE,         # show progress
+  stream = FALSE,         # ⚡ optional streaming mode (default = FALSE)
+  stream_fn = NULL        # optional custom streaming wrapper
+)
+
+
+### ⚡ Streaming Support
+
+Starting in v0.2.x, `KBClient$chat()` can stream output from Bedrock models when the underlying chat client supports it (e.g., `ellmer::chat_aws_bedrock()`).
+
+# non-streaming (default)
+resp <- client$chat("Summarize our recent projects")
+
+# streaming (opt-in)
+resp_stream <- client$chat("Summarize our recent projects", stream = TRUE)
+```
+
+-   When `stream = TRUE`, the method attempts to call one of these on the chat client:
+
+    -    `$stream(prompt)`
+
+    -    `$stream_async(prompt)`
+
+    -    `$call(prompt, stream = TRUE)`
+
+<!-- -->
+
+-    If none are found, it will raise a clear error (`"Streaming requested but chat_client has no recognized streaming entrypoint"`).
+
+
+> Note:
+Streaming is off by default to preserve backwards-compatible, synchronous behavior.
+You can enable it per-call with stream = TRUE, or globally via an R option:
+```
+options(kbretrieveR.stream_default = TRUE)
+```
+

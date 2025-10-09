@@ -1,6 +1,6 @@
 Package: kbretrieveR
 Title: AWS Bedrock Knowledge Base Retrieval for R
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Lazaro", "Alvarez",
            email = "lazarusalvarez3@gmail.com",
@@ -24,7 +24,8 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     ellmer,
-    covr
+    covr,
+    shinychat
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.2

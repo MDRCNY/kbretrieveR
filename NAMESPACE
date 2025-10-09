@@ -3,6 +3,3 @@
 export(KBClient)
 export(kb_chat_with_ellmer)
 export(kb_retrieve_httr)
-exportClasses(Initialize)
-exportClasses(KBClient)
-exportClasses(a)

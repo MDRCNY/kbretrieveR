@@ -11,7 +11,7 @@ library(tibble)
 
 kb_retrieve_httr <- function(kb_id,
                              question,
-                             region = "us-gov-west-1",
+                             region = "us-east-1",
                              number_of_results = 5,
                              verbose = TRUE) {
   stopifnot(is.character(kb_id), nchar(kb_id) > 0)
