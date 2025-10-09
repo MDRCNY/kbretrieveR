@@ -1,4 +1,4 @@
-# kbretrieveR <a href="https://lazasaurus-ai.github.io/contextR"><img src="img/kbretrieveR-hex.png" alt="kbretrieveR hex logo" align="right" height="138"/></a>
+# kbretrieveR <a href="https://github.com/MDRCNY/kbretrieveR"><img src="img/kbretrieveR-hex.png" alt="kbretrieveR hex logo" align="right" height="138"/></a>
 
 Thin interface for AWS Bedrock Knowledge Bases from R.
 
